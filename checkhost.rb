@@ -5,11 +5,15 @@ require 'mcollective'
 require 'mcollective/cache'
 require 'digest/md5'
 require 'json'
+require 'pstore'
 
 include MCollective::RPC
 
 # Setup cache
 MCollective::Cache.setup(:release_results, 600)
+
+all_changes={}
+all_nodes={}
 
 targetenv = "t2107855"
 mc = rpcclient("gonzo", {:color => "false"})
@@ -20,7 +24,7 @@ mc.identity_filter "lxdpuptst02v.pgds.local"
 #mc.check(:environment => "t2107855", :tags => ['cis','ntp_pgds',]) do |resp|
 mc.check(:environment => targetenv) do |resp|
   begin
-    resp[:targetenev] = targetenv
+    resp[:targetenv] = targetenv
 
     resp[:collection] = "report"
     resp[:changes] = []
@@ -31,21 +35,9 @@ mc.check(:environment => targetenv) do |resp|
         # Previous block needs to be saved
         unless @changeref.nil?
           # If we've saved this change before, replace the current block with it
-          begin
-            change = MCollective::Cache.read(:release_results, @changeref)
-          rescue
-            change = Hash[:collection => 'change', :output => @block, ]
-            begin
-              MCollective::Cache.write(:release_results, @changeref, change)
-            rescue
-              puts "#{resp[:senderid]}: Error writing: #{@changeref}"
-            end
-          end
+          change = Hash[:collection => 'change', :output => @block, ]
+          all_changes[@changeref]=change
 
-          puts "--------------"
-          p @changeref
-          p change
-          #        save(@changeref, change)
           resp[:changes] << @changeref
           @changeref = nil
           @block = nil
@@ -70,11 +62,11 @@ mc.check(:environment => targetenv) do |resp|
     end
 
     # Save the report
-    puts "--------------"
-    p resp[:senderid]
-    p resp[:changes]
-    p resp[:msgtime]
-    p resp[:body][:statusmsg]
+    all_nodes[resp[:senderid]] = resp
+    #    p resp[:senderid]
+    #    p resp[:changes]
+    #    p resp[:msgtime]
+    #    p resp[:body][:statusmsg]
     #save(resp[:senderid], resp)
   rescue RPCError => e
     puts "The RPC agent returned an error: #{e}"
@@ -82,6 +74,18 @@ mc.check(:environment => targetenv) do |resp|
 
 end
 puts "---------------------------------------"
+changes_store = PStore.new("changes.pstore")
+changes_store.transaction do
+  all_changes.each do |k,v|
+    changes_store[k] = v unless changes_store.root?(k)
+  end
+end
+nodes_store = PStore.new("nodes.pstore")
+nodes_store.transaction do
+  all_nodes.each do |k,v|
+    nodes_store[k] = v
+  end
+end
 printrpcstats
 mc.disconnect
 # %x{mco rpc gonzo check environment=t2107855 --with-identity lxdpuptst01v.pgds.local --json}
