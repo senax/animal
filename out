@@ -1,0 +1,21 @@
+{
+:body=> {
+  :data=> {
+    :exitcode=>1,
+    :status=>0,
+    :output=>"",
+    :msg=>"No Changes Made  running 'puppet agent --test --detailed-exitcodes --noop --color false --environment t2107855'",
+    :err=>"",
+    :out=>"Info: Retrieving pluginfacts\nInfo: Retrieving plugin\nInfo: Loading facts\nInfo: Caching catalog for lxdpuptst02v.pgds.local\nInfo: Applying configuration version 't2107855'\nNotice: /Stage[main]/Mcollective::Server/File[/etc/mcollective/server.cfg]/content: \n--- /etc/mcollective/server.cfg\t2015-06-01 15:25:22.931451025 +0100\n+++ /tmp/puppet-file20150601-15730-zsw7ch-0\t2015-06-01 16:04:01.814530199 +0100\n@@ -1,6 +1,5 @@\n \n # /etc/mcollective/server.cfg\n-# this is not a comment\n \n # ActiveMQ connector settings:\n connector = activemq\nNotice: /Stage[main]/Mcollective::Server/File[/etc/mcollective/server.cfg]/content: current_value {md5}e00125332c0f8a3b41dc575726f2a1fc, should be {md5}b4ddbde90139206cf1645ba2216a594e (noop)\nInfo: /Stage[main]/Mcollective::Server/File[/etc/mcollective/server.cfg]: Scheduling refresh of Service[mcollective]\nNotice: /Stage[main]/Mcollective::Server/Service[mcollective]: Would have triggered 'refresh' from 1 events\nNotice: Class[Mcollective::Server]: Would have triggered 'refresh' from 3 events\nNotice: /Stage[main]/Suusers::Config/Exec[suusers_housekeeping]/returns: current_value notrun, should be 0 (noop)\nNotice: Class[Suusers::Config]: Would have triggered 'refresh' from 1 events\nNotice: Stage[main]: Would have triggered 'refresh' from 2 events\nNotice: Finished catalog run in 24.92 seconds"
+  },
+  :statusmsg=>"OK",
+  :statuscode=>0
+},
+:msgtime=>1433171051,
+:senderagent=>"gonzo",
+:senderid=>"lxdpuptst02v.pgds.local",
+:collection=>"report",
+:hash=>"TYE3Yulq8RM/hvvT3UlJWEZ5syIFXlFiYtlfO0nPIe1UWKOfrxpml5SrfdNl\nH+vH/CSOOakj552oZ0QcpMol3Akuu1OuxPV2gLpAahPHg9ZM4pbsVaG5dlWX\nV/1udbBXIHdD6EWPy2Kl5SJsUMS1stK717KmMQk7/Q05qdvKdGQwOCPN0hDX\nwRXS2UkrIvFfO0N24HdKYeBtEixzpF4Ch7dBMDK/vZfCgoUMB/X6LMh9syMQ\nZOY6fZ5TR7r5RhPMN456Lp4+2cmbSYcXRLGS+GtQMJ+t59p3Y8TGyjIWYveE\nJM8bJlq8LSYEXye4QymK1/ymRUHvRv0S4C43ULQK6keUqVKPGXoMVJHfKL5X\n9raPm7gD7+svD2v2L3ecnV+R31U6lRZMvlf4O3TyP36ZtO79Id95M+f6Ug8p\nvmLu96VBoDyVYYEOoARYZrFlDPYH/TbIxJ+zpKkkVm+U21zB9BodvWUc6Mc5\nt0e42achLoRQHqiQFcE3Ii44ath9Y5b7MbNMrswEYpqkp/klGMqVyvIMZ/nF\nTaBTiHtCQsvl4lkvvRTpIq2n+VmhMPGpiSDfbV1MEbfmCTg8+ofdgAhg0bm/\nICL9RCOsJbcGLrfAWvvWrVx61FG0Vkn3rjEwBd9ss7v2IUyBUX2pE9/VwYNT\nvW+7R05U80ErK9H7NurRbLA=\n",
+:requestid=>"173f8a7d8fde58bb955d47fe4541e279",
+:changes=>[]
+}
