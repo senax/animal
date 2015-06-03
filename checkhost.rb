@@ -19,7 +19,7 @@ targetenv = "t2107855"
 mc = rpcclient("gonzo", {:color => "false"})
 mc.verbose = false
 mc.progress = true
-mc.identity_filter "lxdpuptst02v.pgds.local"
+mc.identity_filter "lxdpuptst01v.pgds.local"
 #mc.discover(:nodes => ['lxdpuptst01v.pgds.local','lxdpuptst02v.pgds.local',])
 #mc.check(:environment => "t2107855", :tags => ['cis','ntp_pgds',]) do |resp|
 mc.check(:environment => targetenv) do |resp|
@@ -43,19 +43,19 @@ mc.check(:environment => targetenv) do |resp|
           @block = nil
         end
         case line
-        when /^Info:/,
-          /^Notice: Finished catalog run/,
-          /^Notice: .*\/File\[.*\]\/content: current_value \{md5\}[a-f0-9]*, should be/
-          @skip = true
-        else
-          @skip = false
-          if @block.nil?
-            @changeref = Digest::MD5.hexdigest(line.strip)
+          when /^Info:/,
+            /^Notice: Finished catalog run/,
+            /^Notice: .*\/File\[.*\]\/content: current_value \{md5\}[a-f0-9]*, should be/
+            @skip = true
           else
-            @changeref = Digest::MD5.hexdigest(@block)
+            @skip = false
+            if @block.nil?
+              @changeref = Digest::MD5.hexdigest(line.strip)
+            else
+              @changeref = Digest::MD5.hexdigest(@block)
+            end
           end
-        end
-      end
+        end # case
       unless @skip
         (@block ||= "") << line
       end

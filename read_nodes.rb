@@ -13,5 +13,6 @@ store.transaction(true) do
     puts store[root][:msgtime]
     puts "age: #{age} seconds"
     puts store[root][:changes].join(',').to_s
+    puts
   end
 end
