@@ -19,8 +19,8 @@ targetenv = "t2107855"
 mc = rpcclient("gonzo", {:color => "false"})
 mc.verbose = false
 mc.progress = true
-mc.identity_filter "lxdpuptst01v.pgds.local"
-#mc.discover(:nodes => ['lxdpuptst01v.pgds.local','lxdpuptst02v.pgds.local',])
+#mc.identity_filter "lxdpuptst01v.pgds.local"
+mc.discover(:nodes => ['lxdpuptst01v.pgds.local','lxdpuptst02v.pgds.local',])
 #mc.check(:environment => "t2107855", :tags => ['cis','ntp_pgds',]) do |resp|
 mc.check(:environment => targetenv) do |resp|
   begin
@@ -35,7 +35,7 @@ mc.check(:environment => targetenv) do |resp|
         # Previous block needs to be saved
         unless @changeref.nil?
           # If we've saved this change before, replace the current block with it
-          change = Hash[:collection => 'change', :output => @block, ]
+          change = Hash[:ref => @changeref, :output => @block, ]
           all_changes[@changeref]=change
 
           resp[:changes] << @changeref
