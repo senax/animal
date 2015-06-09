@@ -84,6 +84,13 @@ mc.check(:environment => targetenv) do |resp|
           and event["tags"].include?("completed_class") \
           and event["message"].match(/^Scheduling refresh of/)
 
+        # message: removed
+        #   level: notice
+        #     source: /File[/var/lib/puppet/lib/puppet/parser/functions/absents.rb]/ensure
+        event["type"]="ignore" if \
+          event["level"].eql?("notice") \
+          and event["message"].eql?("removed")
+
         # {"line"=>81, "type"=>"unknown", "tags"=>["rebuild_sendmail", "sendmail", "exec", "sendmail::config", "class", "config", "role_franktest", "profile_franktest", "profile_vanilla", "info"], "time"=>"2015-06-09T10:10:35.011664000+01:00", "message"=>"Scheduling refresh of Service[sendmail]", "file"=>"/etc/puppet/environments/t2107855/modules/int/sendmail/manifests/config.pp", "level"=>"info", "source"=>"/Stage[main]/Sendmail::Config/Exec[rebuild_sendmail]"}
         event["type"]="refresh" if \
           event["level"].eql?("info") \
@@ -103,6 +110,14 @@ mc.check(:environment => targetenv) do |resp|
           and event["tags"].include?("packages") \
           and event["source"].match(/\/ensure$/) \
           and event["message"].match(/^current_value absent, should be/)
+
+        # {"message"=>"current_value stopped, should be running (noop)", "level"=>"notice", "file"=>"/etc/puppet/environments/t2107855/modules/int/rhev_agent/manifests/init.pp", :whitelist=>"unknown", "source"=>"/Stage[main]/Rhev_agent/Service[ovirt-guest-agent]/ensure", "line"=>76}
+        event["type"]="service" if \
+          event["level"].eql?("notice") \
+          and event["tags"].include?("packages") \
+          and event["source"].match(/\/ensure$/) \
+          and ( event["message"].match(/^current_value stopped, should be running/) or event["message"].match(/^current_value running, should be stopped/) )
+
 
         event["type"]="error" if \
           event["level"].eql?("err")
