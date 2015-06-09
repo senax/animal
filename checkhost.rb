@@ -17,6 +17,8 @@ all_nodes={}
 
 targetenv = "t2107855"
 mc = rpcclient("gonzo", {:color => "false"})
+mc.timeout = 600
+mc.ttl = 600
 mc.batch_size = 10
 mc.batch_sleep_time = 1
 mc.verbose = true
