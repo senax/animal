@@ -10,6 +10,6 @@ store.transaction(true) do
     puts store[root].inspect
     puts "----------------------------------------------------------"
     puts root
-    puts store[root][:output]
+#    puts store[root][:output]
   end
 end

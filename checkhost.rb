@@ -17,24 +17,27 @@ all_nodes={}
 
 targetenv = "t2107855"
 mc = rpcclient("gonzo", {:color => "false"})
+mc.batch_size = 10
+mc.batch_sleep_time = 1
 mc.verbose = true
 mc.progress = true
 #mc.identity_filter "lxdpuptst02v.pgds.local"
-mc.discover(:nodes => ['lxdpuptst02v.pgds.local',])
+mc.discover(:nodes => ['lxdpuptst01v.pgds.local','lxdpuptst02v.pgds.local',])
 #mc.check(:environment => "t2107855", :tags => ['cis','ntp_pgds',]) do |resp|
 mc.check(:environment => targetenv) do |resp|
 
   p resp if resp[:body][:statuscode] != 0
+  next if resp[:body][:statuscode] != 0
   begin
-
-    #    {:statusmsg=>"OK", :statuscode=>0, :data=>
-    #      {:status=>0, :output=>"[\n
-
-
     resp[:targetenv] = targetenv
-    resp[:collection] = "report"
     resp[:changes] = []
-    output=JSON.parse(resp[:body][:data][:output] + ']')
+    begin
+      output=JSON.parse(resp[:body][:data][:output] + ']')
+    rescue
+      puts "host #{resp[:senderid]}"
+      puts "No json? #{resp[:body][:data][:output]}"
+      output=[]
+    end
 
       output.each do |event|
         event["type"]="unknown"
@@ -120,15 +123,15 @@ mc.check(:environment => targetenv) do |resp|
         #        next if k.eql?("time")
         #        puts "#{k}\t#{v.to_s[0..100]}"
         #      end
-        p event
-        puts
+#        p event
+#        puts
         all_changes[event["ref"]]=event
         resp[:changes] << event["ref"]
-          end
+      end
       # Save the report
       all_nodes[resp[:senderid]] = resp
 
-  rescue RPCerror => e
+  rescue => e
     puts "The RPC agent returned an error: #{e}"
   end
 end # mc.check utp
