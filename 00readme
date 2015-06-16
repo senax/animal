@@ -14,6 +14,9 @@ cp /var/lib/puppet/ssl/public_keys/animal.pem ssl/animal_public.pem
 
 cp /var/lib/puppet/ssl/public_keys/animal.pem /etc/mcollective/ssl/clients/animal_public.pem
 
+mco ping --with-agent gonzo
+
+
 mcollective-actionpolicy-auth.noarch
 
 cat >> /etc/mcollective/server.cfg <<EOF
