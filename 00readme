@@ -16,6 +16,8 @@ cp /var/lib/puppet/ssl/public_keys/animal.pem /etc/mcollective/ssl/clients/anima
 
 mco ping --with-agent gonzo
 
+mco find --with-agent gonzo
+
 
 mcollective-actionpolicy-auth.noarch
 
@@ -34,7 +36,7 @@ allow   cert=animal_public      check   *       *
 EOF
 
 
-# mco rpc puppet last_run_summary --with-identity lxdpuptst01v.pgds.local --json
+# mco rpc puppet last_run_summary --with-identity lxdpuptst01v.foo.local --json
 [
   {
     "statuscode": 0,
@@ -45,13 +47,13 @@ EOF
 
 cp /home/t2107855/GIT/puppet-gonzo/files/mcollective/gonzo/agent/gon* /usr/libexec/mcollective/mcollective/agent/
 
-mco rpc gonzo check environment=t2107855 --with-identity lxdpuptst01v.pgds.local --json
+mco rpc gonzo check environment=t2107855 --with-identity lxdpuptst01v.foo.local --json
 [
   {
     "statuscode": 0,
     "statusmsg": "OK",
     "data": {
-      "out": "Info: Retrieving pluginfacts\nInfo: Retrieving plugin\nInfo: Loading facts\nInfo: Caching catalog for lxdpuptst01v.pgds.local\nInfo: Applying configuration version 't2107855'\nNotice: Class[Mcollective::Server]: Would have triggered 'refresh' from 1 events\nNotice: /Stage[main]/Suusers::Config/Exec[suusers_housekeeping]/returns: current_value notrun, should be 0 (noop)\nNotice: Class[Suusers::Config]: Would have triggered 'refresh' from 1 events\nNotice: Stage[main]: Would have triggered 'refresh' from 2 events\nNotice: Finished catalog run in 29.56 seconds",
+      "out": "Info: Retrieving pluginfacts\nInfo: Retrieving plugin\nInfo: Loading facts\nInfo: Caching catalog for lxdpuptst01v.foo.local\nInfo: Applying configuration version 't2107855'\nNotice: Class[Mcollective::Server]: Would have triggered 'refresh' from 1 events\nNotice: /Stage[main]/Suusers::Config/Exec[suusers_housekeeping]/returns: current_value notrun, should be 0 (noop)\nNotice: Class[Suusers::Config]: Would have triggered 'refresh' from 1 events\nNotice: Stage[main]: Would have triggered 'refresh' from 2 events\nNotice: Finished catalog run in 29.56 seconds",
       "status": 0,
       "err": "",
       "output": "",
@@ -59,12 +61,12 @@ mco rpc gonzo check environment=t2107855 --with-identity lxdpuptst01v.pgds.local
       "msg": "No Changes Made  running 'puppet agent --test --detailed-exitcodes --noop --color false --environment t2107855'"
     },
     "agent": "gonzo",
-    "sender": "lxdpuptst01v.pgds.local",
+    "sender": "lxdpuptst01v.foo.local",
     "action": "check"
   }
 ]
 
-mco rpc gonzo check environment=0_1_1 --with-identity lxdpuptst01v.pgds.local --json
+mco rpc gonzo check environment=0_1_1 --with-identity lxdpuptst01v.foo.local --json
 [
   {
     "statuscode": 0,
