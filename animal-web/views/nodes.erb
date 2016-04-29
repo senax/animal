@@ -1,0 +1,37 @@
+<h3>Nodes:</h3>
+<table id="myTable" class="table table-bordered table-hover tablesorter">
+<thead>
+<tr><th>hostname</th><th>current</th><th>target</th><th>changes</th></th><th>age</th><th>params</th></tr>
+</thead><tbody>
+<% @nodes.each do |k,v| %>
+  <tr>
+  <td>
+  <a href="/node_changes/<%= k %>">
+  <%= k %>
+  </a>
+  </td>
+  <td><%= v[:params]['environment'] %></td>
+  <td><%= v[:targetenv] %></td>
+  <td><table width=100%>
+      <tr><td 
+          <% if v[:stats]['true'] > 0 %>
+            style="background-color: lightgreen"
+          <% end %>
+          ><center><%= v[:stats]['true'] %></center></td></tr>
+      <tr><td 
+          <% if v[:stats]['unknown'] > 0 %>
+            style="background-color: yellow"
+          <% end %>
+          ><center><%= v[:stats]['unknown'] %></center></td></tr>
+      <tr><td 
+          <% if v[:stats]['false'] > 0 %>
+            style="background-color: red"
+          <% end %>
+          ><center><%= v[:stats]['false'] %></center></td></tr>
+    </table>
+    <td><%= Time.at(v[:age]).strftime("%d-%H:%M:%S") %></td>
+    <td><%= v[:params].inspect%></td>
+  </tr>
+<% end %>
+  </tbody>
+</table>

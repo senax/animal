@@ -1,0 +1,33 @@
+---
+:backends:
+  - yaml
+  - foreman
+
+:logger: console
+#:logger: noop
+
+:hierarchy:
+  - node/%{fqdn}
+  - %{environment}/role/%{role}
+  - %{environment}/location/%{location}
+  - %{environment}/class/%{class}
+  - %{environment}/bu/%{bu}
+  - %{environment}/region/%{region}
+  - %{environment}/common
+  - common
+
+:yaml:
+  :datadir: "/home/t2107855/GIT/animal-web/hieradata"
+
+:foreman:
+  :url: 'http://lxpfrmn01v.foo.local'
+  :keys:
+    - classes
+    - region
+    - BU
+    - foreman_env
+    - puppetmaster
+    - patchrelease
+    - location
+    - class
+

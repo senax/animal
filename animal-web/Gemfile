@@ -1,0 +1,6 @@
+#source 'http://rubygems.org'
+source 'http://lhdpup01v.foo.local/gems/'
+gem 'sinatra'
+gem 'rack','~>1.1'
+gem 'json'
+gem 'sinatra-contrib'

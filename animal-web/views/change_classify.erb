@@ -1,0 +1,33 @@
+<h3>Change:</h3>
+<pre><%= @change.to_yaml %></pre>
+<pre><%= @change.inspect %></pre>
+<h3>Applies to these hosts</h3>
+<ol>
+  <% @applies_to.each do |a| %>
+    <li><%= a[:params].inspect %></li>
+  <% end %>
+</ol>
+<h3>hiera search path</h3>
+<pre><%= @hiera.config[:hierarchy].inspect %></pre>
+<table id="myTable" class="table table-bordered">
+  <thead><tr><th>path</th><th>Approve?</th></tr></thead>
+  <tbody>
+    <% @hieratree.each do |ht| %>
+      <tr>
+        <td><%= ht[:key] %></td>
+        <td>
+          <form method="POST" action="/change_classify/<%= @change["ref"] %>">
+            <input type="hidden" name="path" value="<%=ht[:key] %>">
+            <% ["true","false","undef"].each do |key| %>
+              <input type="radio" name="okay" value="<%= key %>" onchange="this.form.submit()" 
+              <% if ht[:found].to_s.eql?(key) %>
+                checked
+              <% end %>
+              ><%= key %>
+            <% end %>
+          </form>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

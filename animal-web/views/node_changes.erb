@@ -1,0 +1,61 @@
+<h3>Node: <%= @node[:params]["fqdn"] %></h3>
+<table id="myTable2" class="table table-bordered">
+  <thead>
+    <tr><th>hostname</th><th>targetenv</th><th>msgtime</th><th>age</th><th>params</th><th>changes</th></tr>
+    </thead><tbody>
+    <tr>
+      <td><%= @node[:params]["fqdn"] %></td>
+      <td><%= @node[:params]["environment"] %></td>
+      <td><%= @node[:msgtime] %></td>
+      <td><%= @node[:age] %></td>
+      <td><%= @node[:params].inspect%></td>
+      <td><%= @node.inspect%></td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <% sum=0 %>
+  <% @node[:stats].each do |k,v| %>
+    <% sum += v %>
+    <li> <%= k %>: <%= v %></li>
+<% end %>
+<li> total: <%= sum %>
+</ul>
+
+<style>
+  td.whitelisttrue { background-color: #90ee90; } 
+  td.whitelistfalse { background-color: #ff6666; } 
+  td.whitelistunknown { background-color: #ffff33; } 
+</style>
+
+<table id="myTable" class="table table-bordered tablesorter">
+  <thead>
+    <tr>
+      <th>whitelisted</th>
+      <th>type</th>
+      <th>source</th>
+      <th>message</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @node[:changes].each do |ref,whitelist| %>
+  <tr>
+    <% if whitelist.eql?("true") %>
+      <td class="whitelisttrue">
+    <% elsif whitelist.eql?("false") %>
+      <td class="whitelistfalse">
+    <% else %>
+      <td class="whitelistunknown">
+    <% end %>
+    <a href="/change_classify/<%= ref %>"><%= whitelist %></a></td>
+    <% change=get_change(ref) %>
+    <td><%= change["type"] %></td>
+    <td><%= change["source"] %></td>
+    <td><pre><%= change["message"] %></pre></td>
+  </tr>
+  <% end %>
+  </tbody>
+</table>
+
+

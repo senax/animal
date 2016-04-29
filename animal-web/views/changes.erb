@@ -1,0 +1,18 @@
+<h3>Nodes:</h3>
+<table id="myTable" class="table table-bordered table-hover tablesorter">
+  <thead>
+    <tr><th>changeref</th><th>type</th><th>level</th><th>source</th><th>message</th></tr>
+    </thead><tbody>
+    <% @changes.each do |k,v| %>
+      <tr>
+        <td>
+          <a href=/change_classify/<%= k %>><%= k %></a>
+        </td>
+        <td><%= v["type"] %></td>
+        <td><%= v["level"] %></td>
+        <td><%= v["source"] %></td>
+        <td><pre><%= v["message"] %></pre></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

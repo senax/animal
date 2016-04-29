@@ -1,0 +1,25 @@
+<h3>Nodes:</h3>
+<table id="myTable" class="table table-bordered table-hover tablesorter">
+  <thead>
+    <tr><th>hostname</th><th>targetenv</th><th>msgtime</th><th>age</th><th>params</th><th>changes</th></tr>
+    </thead><tbody>
+    <% @nodes.each do |k,v| %>
+      <tr>
+        <td><%= k %></td>
+        <td><%= v[:targetenv] %></td>
+        <td><%= v[:msgtime] %></td>
+        <td><%= v[:age] %></td>
+        <td><%= v[:params].inspect%></td>
+        <td>
+          <% v[:changes].each do |c| %>
+        <% foo=Digest::MD5.hexdigest("#{k}#{v[:targetenv]}#{c}") %>
+            <a href="/change_classify/<%= c %>"><div id="<%= foo %>"> change=<%= c %></div></a>
+            <script>
+              $("#<%= foo %>" ).load("/node_change/<%= k %>/<%= v[:targetenv] %>/<%= c %>");
+          </script>
+          <% end %>
+          </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

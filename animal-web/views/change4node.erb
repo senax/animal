@@ -1,0 +1,25 @@
+<style>
+pre.whitelisttrue {
+  background-color: #00c000;
+}
+
+pre.whitelistfalse {
+  background-color: #c00000;
+}
+
+pre.whitelistunknown {
+  background-color: #007070;
+}
+
+</style>
+<% if @change[:whitelist].eql?("true") %>
+ <pre class="whitelisttrue" ><%= @change[:whitelist] %></pre>
+<% elsif @change[:whitelist].eql?("false") %>
+ <pre class="whitelistfalse" ><%= @change[:whitelist] %></pre>
+<% else %>
+ <pre class="whitelistunknown" ><%= @change[:whitelist] %></pre>
+<% end %>
+<pre><%= @change["type"] %></pre>
+<pre><%= @change["level"] %></pre>
+<pre><%= @change["source"] %></pre>
+<pre><%= @change["message"] %></pre>

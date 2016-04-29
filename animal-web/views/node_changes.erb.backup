@@ -1,0 +1,31 @@
+<h3>Node: <%= @node[:params]["fqdn"] %></h3>
+<table id="myTable" class="table table-bordered table-hover tablesorter">
+  <thead>
+    <tr><th>hostname</th><th>targetenv</th><th>msgtime</th><th>age</th><th>params</th><th>changes</th></tr>
+    </thead><tbody>
+    <tr>
+      <td><%= @node[:params]["fqdn"] %></td>
+      <td><%= @node[:params]["environment"] %></td>
+      <td><%= @node[:msgtime] %></td>
+      <td><%= @node[:age] %></td>
+      <td><%= @node[:params].inspect%></td>
+    </tr>
+  </tbody>
+</table>
+<table id="myTable2" class="table table-bordered table-hover tablesorter">
+  <thead>
+    <tr><th>change</th><th>targetenv</th></tr>
+    </thead><tbody>
+    <tr>
+      <td>
+        <% @node[:changes].each do |c| %>
+          <% foo=Digest::MD5.hexdigest("#{@node[:params]["fqdn"]}#{@node[:params]["environment"]}#{c}") %>
+          <a href="/change_classify/<%= c %>"><div id="<%= foo %>"> change=<%= c %></div></a>
+          <script>
+            $("#<%= foo %>" ).load("/change4node/<%= @node[:params]["fqdn"] %>/<%= @node[:params]["environment"] %>/<%= c %>");
+          </script>
+        <% end %>
+      </td>
+    </tr>
+  </tbody>
+</table>
